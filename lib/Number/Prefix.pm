@@ -1,10 +1,14 @@
-=head1 Number::Prefix
+use utf8;
 
-=head1 SYNOPSIS
+=encoding utf-8
+
+=head1 Number::Prefix
 
 Converts a floating point number to a string using the SI prefixes I<k>, I<M>,
 I<G> and I<m>, I<u>, I<n> etc. The Binary Prefixes I<Ki>, I<Mi>, I<Gi>, etc.
 are also supported.
+
+=head1 SYNOPSIS
 
     my $np = Number::Prefix->new();
 
@@ -33,7 +37,7 @@ One can also use IEC Binary Prefixes
 Or one can force a 1024 factor and still use SI Prefixes. But one should use SI
 or IEC Binary Prefixes, not fudge with this factor 1024!
 
-    my $np = Number::Prefix->new(factor=>24);
+    my $np = Number::Prefix->new(factor=>1024);
 
 You may want start with the L</BACKGROUND> chapter describing SI and Binary
 Prefixes
@@ -70,11 +74,11 @@ factor=>1000, since that is the default.
 
 =head2 $self-E<gt>string($number, %options)
 
-I<$self-E<gt>string($number)> is what you'll probably use most (only?). It accepts the same options as I<$self-E<gt>formatNumber($number)>
+C<$self-E<gt>string($number)> is what you'll probably use most (only?). It accepts the same options as C<$self-E<gt>formatNumber($number)>
 
-I<formatNumber>'s I<width> option is also honored, except that here it makes
+C<formatNumber>'s I<width> option is also honored, except that here it makes
 sure the width of the entire string remains constant. ( It handles that prefix
-strings can be of varying length, e.g. 'k' and 'E99'. )
+strings can be of varying length, e.g. I<k> and I<E99>. )
 
 =head2 $self-E<gt>numberPrefix($number)
 
@@ -89,36 +93,37 @@ It will croak if not given a number.
 B<Note:> The SI prefix for 1e-6 is really I<µ> the greek character I<mu>. To
 avoid problems with non-ASCII character sets, we use I<u> for 1e-6 instead, a
 relatively common substitution. Patches that handle UTF-8 and other character
-sets properly are welcome. ( I always seem to get bitten with that in perl. )
+sets properly are welcome. ( I always seem to get bitten by that in perl. )
 
 =head2 $self-E<gt>numberPrefixOrEng($number)
 
-Similar to I<$self-E<gt>numberPrefix($number)>, but if numberPrefix returns 0
-elements, this will return "E$n" as the prefix instead, where $n is a multiplum
-of 3. This is sometimes called "Engineering notation".
+Similar to C<$self-E<gt>numberPrefix($number)>, but if C<numberPrefix> returns 0
+elements, this will return I<E$n>" as the prefix instead, where $n is a
+multiplum of 3. This is sometimes called I<Engineering notation>.
 
 =head2 $self-E<gt>formatNumber($number, %options)
 
-This formats the number from numberPrefix or numberPrefixOrEng "nicely" according to these options:
+This formats the number from C<numberPrefix> or C<numberPrefixOrEng> "nicely"
+according to these options:
 
 =over 4
 
 =item maxSignificantDigits => $n
 
 Here, $n is a positive integer. Will maximum show $n significant digits. So if
-$number is 3.3453459845 and $n is 4 (the default), formatNumber returns
+$number is 3.3453459845 and $n is 4 (the default), C<formatNumber> returns
 "3.345".
 
 Trailing 0s after the comma are not shown, so 20.0000 is shown as "20" and
 20.1000 is shown as "20.1".
 
 If the part of the number to the left of the comma is too big to fit into
-maxSignificantDigits, maxSignificantDigits will be ignored.
+C<maxSignificantDigits>, C<maxSignificantDigits> will be ignored.
 
 =item significantDigits => $n
 
-Like maxSignificantDigits => $n, except that trailing zeros are not removed. So
-with significantDigits => 4, 20 is shown as "20.00".
+Like C<maxSignificantDigits => $n>, except that trailing zeros are not removed.
+So with C<significantDigits => 4>, 20 is shown as "20.00".
 
 =item width => $n
 
