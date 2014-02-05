@@ -355,7 +355,7 @@ sub formatNumber {
     # We know $number is in [ 0 ; 1024 [ for factor => 1024 or binaryPrefix =>
     # 1, or in [ 0; 1000 [ for factor => 1000 (the default)
     defined $number && looks_like_number($number)
-        or croak "numberPrefix needs a number";
+        or croak "formatNumber needs a number";
     my $factor = $self->_getFactor();
     if ($number < 0 || $number > $factor) {
         die "Expected number to lie in the interval [ 0 ; $factor [";
